@@ -1,4 +1,4 @@
-package com.csopesy.group2;
+package com.csopesy.group1;
 
 public class Main {
 
