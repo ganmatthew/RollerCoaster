@@ -1,10 +1,10 @@
 package com.csopesy.group1;
 
-public class Main {
+class Main {
+    int numberOfPassengers;
+    int numberOfCars;
 
-    public static void main(String[] args) {
-	// write your code here
+    static void main(String[] args) {
         System.out.println("Hello World!");
-
     }
 }
