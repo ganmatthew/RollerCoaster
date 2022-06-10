@@ -9,7 +9,7 @@ class Main {
     static int numberOfCars;
     static int capacityOfCars;
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Text file input: ");
         String textFile = scan.nextLine();
