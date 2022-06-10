@@ -19,7 +19,7 @@ class Main {
             if(file.exists()){
                 String[] inputs = new String[0];
                 while(fileScanner.hasNextLine()){
-                    inputs = fileScanner.nextLine().split("");
+                    inputs = fileScanner.nextLine().split(" ");
                 }
                 numberOfPassengers = Integer.parseInt(inputs[0]);
                 capacityOfCars = Integer.parseInt(inputs[1]);
