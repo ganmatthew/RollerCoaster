@@ -9,6 +9,8 @@ class Car implements Runnable {
         this.capacity = capacity;
     }
 
+//    private void load
+
     @Override
     public void run() {
 

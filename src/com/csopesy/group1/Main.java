@@ -8,10 +8,12 @@ class Main {
     static int numberOfPassengers;
     static int numberOfCars;
     static int capacityOfCars;
+    static private ArrayList<Passenger> passenger = new ArrayList<>();
+    static private ArrayList<Car> car = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Text file input: ");
+        System.out.print("Text file input: ");
         String textFile = scan.nextLine();
         File file = new File(textFile);
         try {
@@ -24,6 +26,13 @@ class Main {
                 numberOfPassengers = Integer.parseInt(inputs[0]);
                 capacityOfCars = Integer.parseInt(inputs[1]);
                 numberOfCars = Integer.parseInt(inputs[2]);
+                Helper helper = new Helper(0);
+
+                for(int i = 0; i < numberOfPassengers; i++){
+                    passenger.add(new Passenger(i, helper));
+                    Thread thread = new Thread(passenger.get(i), Integer.toString(i));
+                    thread.start();
+                }
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
