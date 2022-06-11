@@ -5,9 +5,7 @@ import java.util.*;
 import java.io.File;
 
 class Main {
-    static int numberOfPassengers;
-    static int numberOfCars;
-    static int capacityOfCars;
+    static int numberOfPassengers, numberOfCars, capacityOfCars;
     static private ArrayList<Passenger> passenger = new ArrayList<>();
     static private ArrayList<Car> car = new ArrayList<>();
 
@@ -45,7 +43,5 @@ class Main {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-
-//        System.out.println("Number of Passengers: " + numberOfPassengers + " Capacity of Cars: " + capacityOfCars + " Number of Cars: " + numberOfCars);
     }
 }

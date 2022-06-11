@@ -12,7 +12,7 @@ public class Monitor {
             unboardedCounter: used for storing the current number of already unboarded passengers.
             numberOfCars: used for storing the total number of cars.
             resetCounter: used for storing how many times all cars have finished one rotation in the track.
-            numberOfPassengers: used for storing the tatal number of passengers.
+            numberOfPassengers: used for storing the total number of passengers.
 
             isDone: used for checking whether all possible rides is done.
 
@@ -32,7 +32,7 @@ public class Monitor {
         this.numberOfPassengers = numberOfPassengers;
     }
 
-    // increment: Is called everytime a passenger thead invoked board.
+    // increment: Is called everytime a passenger thread invoked board.
     public synchronized void increment(int index){
         // Increments the current number of passenger in queue.
         counter++;
