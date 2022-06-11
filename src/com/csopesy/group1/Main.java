@@ -26,11 +26,19 @@ class Main {
                 numberOfPassengers = Integer.parseInt(inputs[0]);
                 capacityOfCars = Integer.parseInt(inputs[1]);
                 numberOfCars = Integer.parseInt(inputs[2]);
-                Helper helper = new Helper(0);
+                Monitor monitor = new Monitor(0, capacityOfCars, numberOfCars, numberOfPassengers);
+                Thread carThread[] = new Thread[numberOfCars];
+                Thread passThread[] = new Thread[numberOfPassengers];
 
                 for(int i = 0; i < numberOfPassengers; i++){
-                    passenger.add(new Passenger(i, helper));
+                    passenger.add(new Passenger(i, monitor));
                     Thread thread = new Thread(passenger.get(i), Integer.toString(i));
+                    thread.start();
+                }
+
+                for(int i = 0; i < numberOfCars; i++){
+                    car.add(new Car(i, capacityOfCars, monitor));
+                    Thread thread = new Thread(car.get(i), Integer.toString(i));
                     thread.start();
                 }
             }
@@ -38,6 +46,6 @@ class Main {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Number of Passengers: " + numberOfPassengers + " Capacity of Cars: " + capacityOfCars + " Number of Cars: " + numberOfCars);
+//        System.out.println("Number of Passengers: " + numberOfPassengers + " Capacity of Cars: " + capacityOfCars + " Number of Cars: " + numberOfCars);
     }
 }

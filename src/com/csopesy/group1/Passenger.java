@@ -1,22 +1,21 @@
 package com.csopesy.group1;
 
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.Date;
 
 class Passenger implements Runnable {
     private int index;
-    private Helper helper;
+    private Monitor monitor;
 
-    Passenger(int index, Helper helper) {
+    Passenger(int index, Monitor monitor) {
         this.index = index;
-        this.helper = helper;
+        this.monitor = monitor;
     }
 
     private void board(){
-        System.out.println(new Time(new Date().getTime()) + ": Passenger " + index + " boarded");
-        synchronized (helper){
-            helper.increment(index);
+        System.out.println(new Time(new Date().getTime()) + ": Passenger " + index + " got in line for boarding.");
+        synchronized (monitor){
+            monitor.increment(index);
         }
     }
 
@@ -27,7 +26,7 @@ class Passenger implements Runnable {
     @Override
     public void run() {
         try{
-            Thread.sleep((((int) (Math.random() * 30) + 1) * 1000));
+            Thread.sleep((((int) (Math.random() * 20) + 1) * 1000));
             board();
         } catch (InterruptedException e){
             Thread.currentThread().interrupt();
