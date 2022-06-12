@@ -4,33 +4,32 @@ import java.sql.Time;
 import java.util.Date;
 
 class Passenger implements Runnable {
-    private int index;
-    private Monitor monitor;
+    private final int index;
+    private final int minRandTimeSec;
+    private final int maxRandTimeSec;
+    private final Monitor monitor;
 
-    Passenger(int index, Monitor monitor) {
+    Passenger(int index, int minRandTimeSec, int maxRandTimeSec, Monitor monitor) {
         this.index = index;
+        this.minRandTimeSec = minRandTimeSec;
+        this.maxRandTimeSec = maxRandTimeSec;
         this.monitor = monitor;
     }
 
     private void board(){
-        System.out.println(new Time(new Date().getTime()) + ": Passenger " + index + " got in line for boarding.");
+        System.out.println(new Time(new Date().getTime()) + "\tPassenger " + index + " is in line for boarding");
         synchronized (monitor){
             monitor.increment(index);
         }
     }
 
-    private void unboard(){
-        // todo
-    }
-
     @Override
     public void run() {
-        try{
-            Thread.sleep((((int) (Math.random() * 20) + 1) * 1000));
+        try {
+            Thread.sleep((((int) (Math.random() * maxRandTimeSec) + minRandTimeSec) * 1000));
             board();
         } catch (InterruptedException e){
             Thread.currentThread().interrupt();
-            return;
         }
 
     }
