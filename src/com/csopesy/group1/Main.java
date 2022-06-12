@@ -29,8 +29,8 @@ class Main {
                 capacityOfCars = Integer.parseInt(inputs[1]);
                 numberOfCars = Integer.parseInt(inputs[2]);
                 Monitor monitor = new Monitor(0, capacityOfCars, numberOfCars, numberOfPassengers);
-                Thread[] carThread = new Thread[numberOfCars];
-                Thread[] passThread = new Thread[numberOfPassengers];
+                //Thread[] carThread = new Thread[numberOfCars];
+                //Thread[] passThread = new Thread[numberOfPassengers];
 
                 for (int i = 0; i < numberOfPassengers; i++){
                     passenger.add(new Passenger(i, MIN_RANDOM_IN_SEC, MAX_RANDOM_IN_SEC, monitor));

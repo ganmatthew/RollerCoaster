@@ -5,31 +5,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Monitor {
-    /*
-            counter: used for storing the current number of passengers in queue.
-            capacity: used for storing the maximum capacity of each cars.
-            carCounter: used for storing the current car in front of the line.
-            unboardedCounter: used for storing the current number of already unboarded passengers.
-            numberOfCars: used for storing the total number of cars.
-            resetCounter: used for storing how many times all cars have finished one rotation in the track.
-            numberOfPassengers: used for storing the total number of passengers.
-
-            isDone: used for checking whether all possible rides is done.
-
-            queue: used for storing the list of current passengers in queue.
-            boardedPassengers: used for storing the list of the current boarded passengers.
-     */
-    private int counter;
-    private final int capacity;
-    private int carCounter = 0;
-    private int unboardedCounter = 0;
-    private int availableCars;
-    private final int numberOfCars;
-    private int resetCounter = 0;
-    private final int numberOfPassengers;
-    private boolean isDone = false;
-    private final ArrayList<Integer> queue = new ArrayList<>();
-    private final ArrayList<Integer> boardedPassengers = new ArrayList<>();
+    private int counter;                    // current number of passengers in queue
+    private final int capacity;             // maximum capacity of each car
+    private int carCounter = 0;             // index of current car in front of the line
+    private int unboardedCounter = 0;       // current number of already unboarded passengers
+    private int availableCars;              // current number of already unboarded passengers
+    private final int numberOfCars;         // total number of cars
+    private int resetCounter = 0;           // how many times all cars have finished one rotation in the track
+    private final int numberOfPassengers;   // total number of passengers
+    private boolean isDone = false;         // true when all possible rides are done
+    private final ArrayList<Integer> queue = new ArrayList<>();                 // list of current passengers in queue
+    private final ArrayList<Integer> boardedPassengers = new ArrayList<>();     // list of currently boarded passengers
 
     public Monitor(int counter, int capacity, int numberOfCars, int numberOfPassengers){
         this.counter = counter;
