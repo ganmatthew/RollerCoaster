@@ -20,7 +20,12 @@ class Passenger implements Runnable {
         System.out.println(new Time(new Date().getTime()) + "\tPassenger " + index + " is in line for boarding");
         synchronized (monitor){
             monitor.increment(index);
+//            unboard();
         }
+    }
+
+    private void unboard(){
+        System.out.print(new Time(new Date().getTime()) + "\tPassenger " + index + " has unboarded ");
     }
 
     @Override
