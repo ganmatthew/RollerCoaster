@@ -1,4 +1,4 @@
-package com.csopesy.group1;
+package com.csopesy.group1.app;
 
 import java.sql.Time;
 import java.util.ArrayList;

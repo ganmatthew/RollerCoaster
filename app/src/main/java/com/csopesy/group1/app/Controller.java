@@ -1,10 +1,11 @@
-package com.csopesy.group1;
+package com.csopesy.group1.app;
 
-import java.io.FileNotFoundException;
-import java.util.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-class Main {
+public class Controller {
     static int RUNTIME_IN_SEC = 10;
     static int MIN_RANDOM_IN_SEC = 1;
     static int MAX_RANDOM_IN_SEC = 20;
@@ -13,7 +14,7 @@ class Main {
     static private final ArrayList<Passenger> passenger = new ArrayList<>();
     static private final ArrayList<Car> car = new ArrayList<>();
 
-    public static void main(String[] args) {
+    void getInputFromTextFile() {
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter input file name: ");
         String textFile = scan.nextLine();

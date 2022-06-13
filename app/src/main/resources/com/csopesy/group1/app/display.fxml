@@ -8,14 +8,14 @@
 <?import javafx.scene.shape.Rectangle?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csopesy.group1.displayController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csopesy.group1.app.Controller">
    <children>
       <AnchorPane prefHeight="118.0" prefWidth="1000.0" style="-fx-background-color: grey;" />
       <Pane layoutX="236.0" layoutY="141.0" prefHeight="407.0" prefWidth="557.0">
          <children>
             <ImageView fx:id="Track" fitHeight="319.0" fitWidth="404.0" layoutX="77.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../Downloads/Track.png" />
+                  <!--<Image url="@../../../../../../../Downloads/Track.png" />-->
                </image>
             </ImageView>
             <Rectangle fx:id="BoardZone" arcHeight="5.0" arcWidth="5.0" fill="#633c28" height="90.0" layoutX="175.0" layoutY="315.0" stroke="BLACK" strokeType="INSIDE" width="205.0" />
