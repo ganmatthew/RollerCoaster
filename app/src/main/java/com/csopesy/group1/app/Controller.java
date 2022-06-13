@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
@@ -28,13 +30,29 @@ public class Controller {
     Circle car1, car2;
 
     @FXML
-    Button start;
+    Button start, test;
+
+    @FXML
+    Pane TrackPane;
 
     public void initialize(){
-        runCar();
+
+    }
+
+    public void AddCarAndRun(Scene scene){
+        Circle circle = new Circle();
+        circle.setRadius(16);
+        Pane pane = (Pane) scene.lookup("#TrackPane");
+        pane.getChildren().add(circle);
+        circle.setFill(Color.DODGERBLUE);
+        circle.setStroke(Color.BLACK);
+        circle.setStrokeWidth(1);
+        circle.setLayoutX(266);
+        circle.setLayoutY(294);
+        runCar(circle);
     }
     
-    public void runCar() {
+    public void runCar(Circle car) {
         Polyline polyline = new Polyline();
         polyline.getPoints().addAll(new Double[]{
                 0.0, 0.0,
@@ -53,7 +71,7 @@ public class Controller {
                 0.0, 0.0
         });
         PathTransition transition = new PathTransition();
-        transition.setNode(car1);
+        transition.setNode(car);
         transition.setDuration(Duration.seconds(10));
         transition.setPath(polyline);
         //transition.setCycleCount(PathTransition.INDEFINITE);
@@ -67,18 +85,18 @@ public class Controller {
             inputField.setEditable(false);
             startButton.setDisable(true);
             startButton.setText("Running...");
-            readInputTextFile(inputField.getText());
+            readInputTextFile(scene, inputField.getText());
         });
     }
 
-    void getFilenameFromCLI() {
+    void getFilenameFromCLI(Scene scene) {
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter input file name: ");
         String textFile = scan.nextLine();
-        readInputTextFile(textFile);
+        readInputTextFile(scene, textFile);
     }
 
-    void readInputTextFile(String textFile) {
+    void readInputTextFile(Scene scene, String textFile) {
         File file = new File(textFile);
         try {
             Scanner fileScanner = new Scanner(file);
@@ -90,14 +108,14 @@ public class Controller {
                 numberOfPassengers = Integer.parseInt(inputs[0]);
                 capacityOfCars = Integer.parseInt(inputs[1]);
                 numberOfCars = Integer.parseInt(inputs[2]);
-                runRollerCoaster();
+                runRollerCoaster(scene);
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    void runRollerCoaster() {
+    void runRollerCoaster(Scene scene) {
         Monitor monitor = new Monitor(0, capacityOfCars, numberOfCars, numberOfPassengers);
 
         for (int i = 0; i < numberOfPassengers; i++){
@@ -107,7 +125,7 @@ public class Controller {
         }
 
         for (int i = 0; i < numberOfCars; i++){
-            car.add(new Car(i, capacityOfCars, RUNTIME_IN_SEC, monitor));
+            car.add(new Car(i, capacityOfCars, RUNTIME_IN_SEC, monitor, this, scene));
             Thread thread = new Thread(car.get(i), Integer.toString(i));
             thread.start();
         }

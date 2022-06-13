@@ -29,7 +29,7 @@ public class Main extends Application {
         if (USE_GRAPHICAL_INTERFACE) {
             controller.getFilenameFromView(scene);
         } else {
-            controller.getFilenameFromCLI();
+            controller.getFilenameFromCLI(scene);
         }
     }
 
