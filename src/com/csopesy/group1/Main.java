@@ -5,7 +5,7 @@ import java.util.*;
 import java.io.File;
 
 class Main {
-    static int RUNTIME_IN_MS = 10000;
+    static int RUNTIME_IN_SEC = 10;
     static int MIN_RANDOM_IN_SEC = 1;
     static int MAX_RANDOM_IN_SEC = 20;
 
@@ -39,7 +39,7 @@ class Main {
                 }
 
                 for (int i = 0; i < numberOfCars; i++){
-                    car.add(new Car(i, capacityOfCars, RUNTIME_IN_MS, monitor));
+                    car.add(new Car(i, capacityOfCars, RUNTIME_IN_SEC, monitor));
                     Thread thread = new Thread(car.get(i), Integer.toString(i));
                     thread.start();
                 }

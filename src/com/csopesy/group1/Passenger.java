@@ -8,6 +8,7 @@ class Passenger implements Runnable {
     private final int minRandTimeSec;
     private final int maxRandTimeSec;
     private final Monitor monitor;
+    private int carCounter = 0;
 
     Passenger(int index, int minRandTimeSec, int maxRandTimeSec, Monitor monitor) {
         this.index = index;
@@ -19,8 +20,14 @@ class Passenger implements Runnable {
     private void board(){
         System.out.println(new Time(new Date().getTime()) + "\tPassenger " + index + " is in line for boarding");
         synchronized (monitor){
-            monitor.increment(index);
+            carCounter = monitor.increment(index);
         }
+    }
+
+    private void unboard(){
+        monitor.unboard(index);
+        System.out.println(new Time(new Date().getTime()) + "\tPassenger " + index + " has unboarded Car " + carCounter);
+
     }
 
     @Override
@@ -28,6 +35,7 @@ class Passenger implements Runnable {
         try {
             Thread.sleep((((int) (Math.random() * maxRandTimeSec) + minRandTimeSec) * 1000));
             board();
+            unboard();
         } catch (InterruptedException e){
             Thread.currentThread().interrupt();
         }

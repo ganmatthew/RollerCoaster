@@ -16,6 +16,9 @@ public class Monitor {
     private boolean isDone = false;         // true when all possible rides are done
     private final ArrayList<Integer> queue = new ArrayList<>();                 // list of current passengers in queue
     private final ArrayList<Integer> boardedPassengers = new ArrayList<>();     // list of currently boarded passengers
+    private final ArrayList<Integer> unboardedPassengers = new ArrayList<>();   // list of already unboarded passengers
+    private Object passengerMonitor = new Object();
+    private boolean tempBool = false;
 
     public Monitor(int counter, int capacity, int numberOfCars, int numberOfPassengers){
         this.counter = counter;
@@ -26,7 +29,7 @@ public class Monitor {
     }
 
     // increment: Is called everytime a passenger thread invoked board.
-    public synchronized void increment(int index){
+    public synchronized int increment(int index){
         // Increments the current number of passenger in queue.
         counter++;
         queue.add(index);
@@ -34,18 +37,12 @@ public class Monitor {
         if (counter >= capacity){
             // Checks if there is an available car for passengers to board.
             if (availableCars > 0){
-                for (int i = 0; i < capacity; i++){
-                    System.out.println(new Time(new Date().getTime()) + "\tPassenger " + queue.get(0) + " has boarded Car " + carCounter);
-                    boardedPassengers.add(queue.get(0));
-                    queue.remove(0);
-                }
-                counter -= capacity;
-                availableCars--;
                 notify();
             }
         }
-    }
+        return carCounter;
 
+    }
 
     // checkCarOrder: Is used to check whether it is the turn of a car to load passengers.
     public synchronized boolean checkCarOrder(int index){
@@ -57,7 +54,21 @@ public class Monitor {
         // Loop until the current car is full.
         while (!isCarFull() && !isDone){
             try {
-                wait(); // Forces the thread to wait until a notify() is called.
+                if(counter < capacity){
+                    wait(); // Forces the thread to wait until a notify() is called.
+                }
+                if(counter >= capacity){
+                    for (int i = 0; i < capacity; i++){
+                        System.out.println(new Time(new Date().getTime()) + "\tPassenger " + queue.get(0) + " has boarded Car " + carCounter);
+                        boardedPassengers.add(queue.get(0));
+                        queue.remove(0);
+                    }
+                    counter -= capacity;
+                    availableCars--;
+                }
+                else{
+                    return isDone;
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -68,8 +79,11 @@ public class Monitor {
     // passengerUnboard: Is called everytime a car thread finishes one rotation in the track.
     public synchronized void passengerUnboard (int index){
         for (int i = 0; i < capacity; i++){
-            System.out.println(new Time(new Date().getTime()) + "\tPassenger " + boardedPassengers.get(unboardedCounter) + " has unboarded from Car " + index);
+            unboardedPassengers.add(boardedPassengers.get(unboardedCounter));
             unboardedCounter++;
+        }
+        synchronized (passengerMonitor){
+            passengerMonitor.notifyAll();
         }
         if (numberOfPassengers == unboardedCounter || (numberOfPassengers == unboardedCounter + queue.size() && queue.size() < capacity)){
             System.out.println("All rides completed");
@@ -78,6 +92,30 @@ public class Monitor {
         } else {
             availableCars++;
             checkAvailable();
+        }
+    }
+
+    public void unboard(int index){
+        synchronized (passengerMonitor){
+            try{
+                if(unboardedCounter == 0){
+                    passengerMonitor.wait();
+                }
+                while(!tempBool){
+                    for(int i = 0; i < capacity; i++){
+                        if(unboardedPassengers.get(unboardedCounter - (i + 1)) == index){
+                            tempBool = true;
+                        }
+                    }
+                    if(!tempBool){
+                        passengerMonitor.wait();
+                    }
+
+                }
+                tempBool = false;
+            } catch (InterruptedException e){
+                throw new RuntimeException(e);
+            }
         }
 
     }
@@ -104,13 +142,6 @@ public class Monitor {
     // checkAvailable: Is used to check if there is an available car for a passenger to board.
     private synchronized void checkAvailable(){
         if (availableCars > 0 && counter >= capacity){
-            for (int i = 0; i < capacity; i++){
-                System.out.println(new Time(new Date().getTime()) + "\tPassenger " + queue.get(0) + " has boarded car " + carCounter);
-                boardedPassengers.add(queue.get(0));
-                queue.remove(0);
-            }
-            counter -= capacity;
-            availableCars--;
             notify();
         }
     }

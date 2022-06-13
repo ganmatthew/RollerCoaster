@@ -6,13 +6,13 @@ import java.util.Date;
 class Car implements Runnable {
     int index;
     int capacity;
-    int runTimeInMs;
+    int runTimeInSec;
     private final Monitor monitor;
 
-    public Car(int index, int capacity, int runTimeInMs, Monitor monitor) {
+    public Car(int index, int capacity, int runTimeInSec, Monitor monitor) {
         this.index = index;
         this.capacity = capacity;
-        this.runTimeInMs = runTimeInMs;
+        this.runTimeInSec = runTimeInSec;
         this.monitor = monitor;
     }
 
@@ -23,7 +23,7 @@ class Car implements Runnable {
     private void runCar(){
         System.out.println(new Time(new Date().getTime()) + "\tCar " + index + " is running");
         try {
-            Thread.sleep(runTimeInMs);
+            Thread.sleep(runTimeInSec * 1000L);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
