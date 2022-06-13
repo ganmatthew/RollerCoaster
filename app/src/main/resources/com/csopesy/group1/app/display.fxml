@@ -41,15 +41,17 @@
             </ImageView>
             <Rectangle fx:id="BoardZone" arcHeight="5.0" arcWidth="5.0" fill="#633c28" height="90.0" layoutX="208.0" layoutY="310.0" stroke="BLACK" strokeType="INSIDE" width="205.0" />
             <Circle fx:id="car1" fill="DODGERBLUE" layoutX="266.0" layoutY="294.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" />
-            <TextField layoutX="261.0" layoutY="117.0" />
+            <TextField fx:id="inputField" layoutX="261.0" layoutY="117.0" />
             <Text fill="WHITE" fontSmoothingType="LCD" layoutX="211.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input">
                <font>
                   <Font size="16.0" />
-               </font></Text>
+               </font>
+            </Text>
             <Button fx:id="start" layoutX="271.0" layoutY="155.0" mnemonicParsing="false" onAction="#runCar" prefHeight="25.0" prefWidth="80.0" text="Start">
                <font>
                   <Font size="14.0" />
-               </font></Button>
+               </font>
+            </Button>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>

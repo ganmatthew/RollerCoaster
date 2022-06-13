@@ -2,7 +2,9 @@ package com.csopesy.group1.app;
 
 import javafx.animation.PathTransition;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
@@ -14,13 +16,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Controller {
-    static int RUNTIME_IN_SEC = 10;
-    static int MIN_RANDOM_IN_SEC = 1;
-    static int MAX_RANDOM_IN_SEC = 20;
+    int RUNTIME_IN_SEC = 10;
+    int MIN_RANDOM_IN_SEC = 1;
+    int MAX_RANDOM_IN_SEC = 20;
 
-    static int numberOfPassengers, numberOfCars, capacityOfCars;
-    static private final ArrayList<Passenger> passenger = new ArrayList<>();
-    static private final ArrayList<Car> car = new ArrayList<>();
+    int numberOfPassengers, numberOfCars, capacityOfCars;
+    private final ArrayList<Passenger> passenger = new ArrayList<>();
+    private final ArrayList<Car> car = new ArrayList<>();
 
     @FXML
     Circle car1, car2;
@@ -58,10 +60,25 @@ public class Controller {
         transition.play();
     }
 
-    void getInputFromTextFile() {
+    void getFilenameFromView(Scene scene) {
+        Button startButton = (Button) scene.lookup("#start");
+        TextField inputField = (TextField) scene.lookup("#inputField");
+        startButton.setOnAction(e -> {
+            inputField.setEditable(false);
+            startButton.setDisable(true);
+            startButton.setText("Running...");
+            readInputTextFile(inputField.getText());
+        });
+    }
+
+    void getFilenameFromCLI() {
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter input file name: ");
         String textFile = scan.nextLine();
+        readInputTextFile(textFile);
+    }
+
+    void readInputTextFile(String textFile) {
         File file = new File(textFile);
         try {
             Scanner fileScanner = new Scanner(file);
@@ -73,24 +90,28 @@ public class Controller {
                 numberOfPassengers = Integer.parseInt(inputs[0]);
                 capacityOfCars = Integer.parseInt(inputs[1]);
                 numberOfCars = Integer.parseInt(inputs[2]);
-                Monitor monitor = new Monitor(0, capacityOfCars, numberOfCars, numberOfPassengers);
-                //Thread[] carThread = new Thread[numberOfCars];
-                //Thread[] passThread = new Thread[numberOfPassengers];
-
-                for (int i = 0; i < numberOfPassengers; i++){
-                    passenger.add(new Passenger(i, MIN_RANDOM_IN_SEC, MAX_RANDOM_IN_SEC, monitor));
-                    Thread thread = new Thread(passenger.get(i), Integer.toString(i));
-                    thread.start();
-                }
-
-                for (int i = 0; i < numberOfCars; i++){
-                    car.add(new Car(i, capacityOfCars, RUNTIME_IN_SEC, monitor));
-                    Thread thread = new Thread(car.get(i), Integer.toString(i));
-                    thread.start();
-                }
+                runRollerCoaster();
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+
+    void runRollerCoaster() {
+        Monitor monitor = new Monitor(0, capacityOfCars, numberOfCars, numberOfPassengers);
+
+        for (int i = 0; i < numberOfPassengers; i++){
+            passenger.add(new Passenger(i, MIN_RANDOM_IN_SEC, MAX_RANDOM_IN_SEC, monitor));
+            Thread thread = new Thread(passenger.get(i), Integer.toString(i));
+            thread.start();
+        }
+
+        for (int i = 0; i < numberOfCars; i++){
+            car.add(new Car(i, capacityOfCars, RUNTIME_IN_SEC, monitor));
+            Thread thread = new Thread(car.get(i), Integer.toString(i));
+            thread.start();
+        }
+    }
+
+
 }

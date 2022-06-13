@@ -8,9 +8,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+    final boolean USE_GRAPHICAL_INTERFACE = true;
+    public final int WIDTH = 1000;
+    public final int HEIGHT = 760;
+
     private final Controller controller = new Controller();
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 760;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -24,7 +26,11 @@ public class Main extends Application {
         stage.setMinHeight(HEIGHT);
         stage.setMaxHeight(HEIGHT);
         stage.setResizable(false);
-        //controller.getInputFromTextFile();
+        if (USE_GRAPHICAL_INTERFACE) {
+            controller.getFilenameFromView(scene);
+        } else {
+            controller.getFilenameFromCLI();
+        }
     }
 
     public static void main(String[] args) {
