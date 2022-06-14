@@ -27,9 +27,9 @@ public class Main extends Application {
         stage.setMaxHeight(HEIGHT);
         stage.setResizable(false);
         if (USE_GRAPHICAL_INTERFACE) {
-            controller.getFilenameFromView(scene);
+            controller.getInputFromView(scene);
         } else {
-            controller.getFilenameFromCLI(scene);
+            controller.getInputFromCLI(scene);
         }
     }
 

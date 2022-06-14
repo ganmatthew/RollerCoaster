@@ -154,7 +154,7 @@ public class Controller implements Initializable {
         transition.play();
     }
 
-    void getFilenameFromView(Scene scene) {
+    void getInputFromView(Scene scene) {
         Button startButton = (Button) scene.lookup("#start");
         TextField inputField = (TextField) scene.lookup("#inputField");
         startButton.setOnAction(e -> {
@@ -165,29 +165,20 @@ public class Controller implements Initializable {
         });
     }
 
-    void getFilenameFromCLI(Scene scene) {
+    void getInputFromCLI(Scene scene) {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Enter input file name: ");
+        System.out.print("Enter inputs: ");
         String textFile = scan.nextLine();
         readInputTextFile(scene, textFile);
     }
 
-    void readInputTextFile(Scene scene, String textFile) {
-        File file = new File(textFile);
-        try {
-            Scanner fileScanner = new Scanner(file);
-            if (file.exists()){
-                String[] inputs = new String[0];
-                while(fileScanner.hasNextLine()){
-                    inputs = fileScanner.nextLine().split(" ");
-                }
-                numberOfPassengers = Integer.parseInt(inputs[0]);
-                capacityOfCars = Integer.parseInt(inputs[1]);
-                numberOfCars = Integer.parseInt(inputs[2]);
-                runRollerCoaster(scene);
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+    void readInputTextFile(Scene scene, String inputString) {
+        if (!inputString.isEmpty()) {
+            String[] inputs = inputString.split(" ");
+            numberOfPassengers = Integer.parseInt(inputs[0]);
+            capacityOfCars = Integer.parseInt(inputs[1]);
+            numberOfCars = Integer.parseInt(inputs[2]);
+            runRollerCoaster(scene);
         }
     }
 
