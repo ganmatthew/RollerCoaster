@@ -27,8 +27,9 @@ class Passenger implements Runnable {
 
     private void board(){
         System.out.println(new Time(new Date().getTime()) + "\tPassenger " + index + " is in line for boarding");
-        carCounter = monitor.increment(index);
+        controller.updatePassRoam(scene, index, "remove");
         controller.updatePassQueue(scene, index, "add");
+        carCounter = monitor.increment(index);
     }
 
     private void unboard(){

@@ -33,7 +33,8 @@ public class Controller implements Initializable {
     int numberOfPassengers, numberOfCars, capacityOfCars;
     private final ArrayList<Passenger> passenger = new ArrayList<>();
     private final ArrayList<Car> car = new ArrayList<>();
-    private int roamCnt = 1, queueCnt = 1, carsCnt = 1, unboardCnt = 1;
+    private int roamCnt = 0, unboardCnt = 1;
+    private int[] passengerNum;
 
     @FXML
     private TableView<TableString> passRoam, passQueue, numCars, passUnboard;
@@ -60,10 +61,18 @@ public class Controller implements Initializable {
 
     }
 
-    public synchronized void updatePassRoam(Scene scene, int n){
+    public synchronized void updatePassRoam(Scene scene, int n, String action){
         passRoam = new TableView<TableString>();
         passRoam = (TableView<TableString>) scene.lookup("#passRoam");
-        passRoam.getItems().add(new TableString("Passenger " + n));
+//        if(action == "add"){
+//            passRoam.getItems().add(new TableString("Passenger " + n));
+//            passengerNum[n] = roamCnt;
+//            roamCnt++;
+//        }
+//        else{
+//            passRoam.getItems().remove(passengerNum[n]);
+//        }
+
     }
 
     public synchronized void updatePassQueue(Scene scene, int n, String action){
@@ -177,16 +186,18 @@ public class Controller implements Initializable {
 
     void runRollerCoaster(Scene scene) {
         Monitor monitor = new Monitor(0, capacityOfCars, numberOfCars, numberOfPassengers, scene, this);
+        passengerNum = new int[numberOfPassengers];
 
         for (int i = 0; i < numberOfPassengers; i++){
             passenger.add(new Passenger(i, MIN_RANDOM_IN_SEC, MAX_RANDOM_IN_SEC, monitor, scene, this));
-            Thread thread = new Thread(passenger.get(i), Integer.toString(i));
+            Thread thread = new Thread(passenger.get(i), "Passenger " + i);
             thread.start();
+            updatePassRoam(scene, i, "add");
         }
 
         for (int i = 0; i < numberOfCars; i++){
             car.add(new Car(i, capacityOfCars, RUNTIME_IN_SEC, monitor, this, scene));
-            Thread thread = new Thread(car.get(i), Integer.toString(i));
+            Thread thread = new Thread(car.get(i), "car " + i);
             thread.start();
         }
     }
