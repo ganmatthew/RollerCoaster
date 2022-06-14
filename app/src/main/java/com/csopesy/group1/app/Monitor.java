@@ -17,6 +17,7 @@ public class Monitor {
     private final int capacity;             // maximum capacity of each car
     private int carCounter = 0;             // index of current car in front of the line
     private int unboardedCounter = 0;       // current number of already unboarded passengers
+    private int boardedCounter = 0;         // total number of passengers that boarded already
     private int availableCars;              // current number of already unboarded passengers
     private final int numberOfCars;         // total number of cars
     private int resetCounter = 0;           // how many times all cars have finished one rotation in the track
@@ -44,7 +45,11 @@ public class Monitor {
     // increment: Is called everytime a passenger thread invoked board.
     public synchronized int increment(int index){
         // Increments the current number of passenger in queue.
+        if(boardedCounter % capacity == 0 && boardedCounter != 0){
+            carNumber++;
+        }
         counter++;
+        boardedCounter++;
         queue.add(index);
         // Checks if the current number of passenger is enough to fill all seats in a car.
         if (counter >= capacity){
@@ -53,10 +58,8 @@ public class Monitor {
                 notify();
             }
         }
-        if(carNumber > capacity){
-            carNumber++;
-        }
-        return carCounter + (carNumber * capacity);
+
+        return carNumber;
 
     }
 
