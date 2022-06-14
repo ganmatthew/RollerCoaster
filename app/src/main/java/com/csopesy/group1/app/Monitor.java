@@ -31,15 +31,19 @@ public class Monitor {
     private boolean tempBool = false;                   // temporary boolean value that determines if a passenger is next in line for unboarding
     private int tempCounter = 0;
     private int carNumber = 0;
+    private Scene scene;
+    private Controller controller;
 
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-    public Monitor(int counter, int capacity, int numberOfCars, int numberOfPassengers){
+    public Monitor(int counter, int capacity, int numberOfCars, int numberOfPassengers, Scene scene, Controller controller){
         this.counter = counter;
         this.capacity = capacity;
         this.numberOfCars = numberOfCars;
         this.availableCars = numberOfCars;
         this.numberOfPassengers = numberOfPassengers;
+        this.scene = scene;
+        this.controller = controller;
     }
 
     // increment: Is called everytime a passenger thread invoked board.
@@ -79,6 +83,7 @@ public class Monitor {
                 if(counter >= capacity){
                     for (int i = 0; i < capacity; i++){
                         System.out.println(new Time(new Date().getTime()) + "\tPassenger " + queue.get(0) + " has boarded Car " + carCounter);
+                        controller.updatePassQueue(scene, queue.get(0), "remove");
                         boardedPassengers.add(queue.get(0));
                         queue.remove(0);
                     }

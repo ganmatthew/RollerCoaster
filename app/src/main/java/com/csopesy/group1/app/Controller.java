@@ -33,6 +33,7 @@ public class Controller implements Initializable {
     int numberOfPassengers, numberOfCars, capacityOfCars;
     private final ArrayList<Passenger> passenger = new ArrayList<>();
     private final ArrayList<Car> car = new ArrayList<>();
+    private int roamCnt = 1, queueCnt = 1, carsCnt = 1, unboardCnt = 1;
 
     @FXML
     private TableView<TableString> passRoam, passQueue, numCars, passUnboard;
@@ -60,27 +61,41 @@ public class Controller implements Initializable {
     }
 
     public synchronized void updatePassRoam(Scene scene, int n){
-        passUnboard = new TableView<TableString>();
-        passUnboard = (TableView<TableString>) scene.lookup("#passRoam");
-        passUnboard.getItems().add(new TableString("Passenger " +n));
+        passRoam = new TableView<TableString>();
+        passRoam = (TableView<TableString>) scene.lookup("#passRoam");
+        passRoam.getItems().add(new TableString("Passenger " + n));
     }
 
-    public synchronized void updatePassQueue(Scene scene, int n){
-        passUnboard = new TableView<TableString>();
-        passUnboard = (TableView<TableString>) scene.lookup("#passQueue");
-        passUnboard.getItems().add(new TableString("Passenger " +n));
+    public synchronized void updatePassQueue(Scene scene, int n, String action){
+        passQueue = new TableView<TableString>();
+        passQueue = (TableView<TableString>) scene.lookup("#passQueue");
+        if(action == "add"){
+            passQueue.getItems().add(new TableString("Passenger " + n));
+        }
+        else{
+            passQueue.getItems().remove(0);
+        }
+
+
     }
 
-    public synchronized void updateNumCars(Scene scene, int n){
-        passUnboard = new TableView<TableString>();
-        passUnboard = (TableView<TableString>) scene.lookup("#numCars");
-        passUnboard.getItems().add(new TableString("Passenger " +n));
+    public synchronized void updateNumCars(Scene scene, int n, String action){
+        numCars = new TableView<TableString>();
+        numCars = (TableView<TableString>) scene.lookup("#numCars");
+        if(action == "add"){
+            numCars.getItems().add(new TableString("Car " + n));
+        }
+        else{
+            numCars.getItems().remove(0);
+        }
+
     }
 
     public synchronized void updatePassUnboard(Scene scene, int n){
         passUnboard = new TableView<TableString>();
         passUnboard = (TableView<TableString>) scene.lookup("#passUnboard");
-        passUnboard.getItems().add(new TableString("Passenger " +n));
+        passUnboard.getItems().add(new TableString(unboardCnt + ". Passenger " + n));
+        unboardCnt++;
     }
 
 
@@ -161,7 +176,7 @@ public class Controller implements Initializable {
     }
 
     void runRollerCoaster(Scene scene) {
-        Monitor monitor = new Monitor(0, capacityOfCars, numberOfCars, numberOfPassengers);
+        Monitor monitor = new Monitor(0, capacityOfCars, numberOfCars, numberOfPassengers, scene, this);
 
         for (int i = 0; i < numberOfPassengers; i++){
             passenger.add(new Passenger(i, MIN_RANDOM_IN_SEC, MAX_RANDOM_IN_SEC, monitor, scene, this));

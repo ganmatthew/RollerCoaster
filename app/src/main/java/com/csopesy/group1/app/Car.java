@@ -29,6 +29,7 @@ class Car implements Runnable {
 
     private void runCar(){
         System.out.println(new Time(new Date().getTime()) + "\tCar " + index + " is running");
+        controller.updateNumCars(scene, index, "add");
         try {
             Platform.runLater(()->controller.AddCarAndRun(scene));
 
@@ -36,11 +37,13 @@ class Car implements Runnable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
         unload();
     }
 
     private void unload(){
         System.out.println(new Time(new Date().getTime()) + "\tCar " + index + " is unloading passengers");
+        controller.updateNumCars(scene, index, "remove");
         monitor.passengerUnboard(index, this.scene);
     }
 
