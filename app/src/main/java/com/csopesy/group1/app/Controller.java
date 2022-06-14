@@ -1,11 +1,15 @@
 package com.csopesy.group1.app;
 
 import javafx.animation.PathTransition;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -15,10 +19,12 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class Controller {
+public class Controller implements Initializable {
     int RUNTIME_IN_SEC = 10;
     int MIN_RANDOM_IN_SEC = 1;
     int MAX_RANDOM_IN_SEC = 20;
@@ -28,7 +34,12 @@ public class Controller {
     private final ArrayList<Car> car = new ArrayList<>();
 
     @FXML
-    TableView passRoam, passQueue, numCars, passUnboard;
+    private TableView<TableString> passRoam, passQueue, numCars, passUnboard;
+
+    @FXML
+    private TableColumn<TableString, String> passRoamCol, passQueueCol, numCarsCol, passUnboardCol;
+
+
     @FXML
     Circle car1, car2;
 
@@ -38,9 +49,20 @@ public class Controller {
     @FXML
     Pane TrackPane;
 
-    public void initialize(){
+    @Override
+    public void initialize(URL url, ResourceBundle rb){
+        passRoamCol.setCellValueFactory(new PropertyValueFactory<TableString, String>("string"));
 
     }
+
+    public void updatePassRoam(Scene scene, int n){
+        TableView<TableString> passRoam = (TableView<TableString>) scene.lookup("#passRoam");
+
+        ObservableList<TableString> tableStrings = passRoam.getItems();
+        tableStrings.add(new TableString("Passenger " +n));
+        passRoam.setItems(tableStrings);
+    }
+
 
     public void AddCarAndRun(Scene scene){
         Circle circle = new Circle();
@@ -122,7 +144,7 @@ public class Controller {
         Monitor monitor = new Monitor(0, capacityOfCars, numberOfCars, numberOfPassengers);
 
         for (int i = 0; i < numberOfPassengers; i++){
-            passenger.add(new Passenger(i, MIN_RANDOM_IN_SEC, MAX_RANDOM_IN_SEC, monitor));
+            passenger.add(new Passenger(i, MIN_RANDOM_IN_SEC, MAX_RANDOM_IN_SEC, monitor, scene, this));
             Thread thread = new Thread(passenger.get(i), Integer.toString(i));
             thread.start();
         }

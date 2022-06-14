@@ -1,5 +1,7 @@
 package com.csopesy.group1.app;
 
+import javafx.scene.Scene;
+
 import java.sql.Time;
 import java.util.Date;
 
@@ -8,13 +10,19 @@ class Passenger implements Runnable {
     private final int minRandTimeSec;
     private final int maxRandTimeSec;
     private final Monitor monitor;
+
+    Scene scene;
+    Controller controller;
+
     private int carCounter = 0;
 
-    Passenger(int index, int minRandTimeSec, int maxRandTimeSec, Monitor monitor) {
+    Passenger(int index, int minRandTimeSec, int maxRandTimeSec, Monitor monitor, Scene scene, Controller controller) {
         this.index = index;
         this.minRandTimeSec = minRandTimeSec;
         this.maxRandTimeSec = maxRandTimeSec;
         this.monitor = monitor;
+        this.scene = scene;
+        this.controller = controller;
     }
 
     private void board(){
@@ -26,6 +34,7 @@ class Passenger implements Runnable {
         if(monitor.unboard(index)){
             System.out.println(new Time(new Date().getTime()) + "\tPassenger " + index + " has unboarded Car " + carCounter);
             monitor.unboardSuccessful();
+            controller.updatePassRoam(scene,index);
         }
     }
 

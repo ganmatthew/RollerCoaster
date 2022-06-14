@@ -59,22 +59,22 @@
       </Pane>
       <TableView fx:id="passUnboard" layoutX="825.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
         <columns>
-          <TableColumn prefWidth="185.0" text="Passengers Unboarded" />
+          <TableColumn fx:id="passUnboardCol" prefWidth="185.0" text="Passengers Unboarded" />
         </columns>
       </TableView>
       <TableView fx:id="numCars" layoutX="648.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
          <columns>
-            <TableColumn prefWidth="185.0" text="Cars on Track" />
+            <TableColumn fx:id="numCarsCol" prefWidth="185.0" text="Cars on Track" />
          </columns>
       </TableView>
       <TableView fx:id="passRoam" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
          <columns>
-            <TableColumn prefWidth="185.0" text="Passengers Roaming" />
+            <TableColumn fx:id="passRoamCol" prefWidth="185.0" text="Passengers Roaming" />
          </columns>
       </TableView>
       <TableView fx:id="passQueue" layoutX="177.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
          <columns>
-            <TableColumn prefWidth="185.0" text="Passengers on Queue" />
+            <TableColumn fx:id="passQueueCol" prefWidth="185.0" text="Passengers on Queue" />
          </columns>
       </TableView>
    </children>
