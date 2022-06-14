@@ -118,17 +118,17 @@ public class Monitor {
                 if (numberOfPassengers == unboardedCounter || (numberOfPassengers == unboardedCounter + queue.size() && queue.size() < capacity)){
                     System.out.println("All rides completed");
 
-//                    alert.setTitle("Information Dialog");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("All rides completed");
-//
-//                    Platform.runLater(()->{
-//                        Optional<ButtonType> result = alert.showAndWait();
-//                        if (result.get() == ButtonType.OK){
-//                            Stage stage = (Stage) scene.getWindow();
-//                            stage.close();
-//                        }
-//                    });
+                    alert.setTitle("Information Dialog");
+                    alert.setHeaderText(null);
+                    alert.setContentText("All rides completed");
+
+                    Platform.runLater(()->{
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.get() == ButtonType.OK){
+                            Stage stage = (Stage) scene.getWindow();
+                            stage.close();
+                        }
+                    });
 
                     isDone = true;
                     notifyAll();

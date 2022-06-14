@@ -34,7 +34,7 @@ public class Controller implements Initializable {
     private final ArrayList<Passenger> passenger = new ArrayList<>();
     private final ArrayList<Car> car = new ArrayList<>();
     private int roamCnt = 0, unboardCnt = 1;
-    private int[] passengerNum;
+    private ArrayList<Integer> passengerNum = new ArrayList<>();
 
     @FXML
     private TableView<TableString> passRoam, passQueue, numCars, passUnboard;
@@ -64,14 +64,21 @@ public class Controller implements Initializable {
     public synchronized void updatePassRoam(Scene scene, int n, String action){
         passRoam = new TableView<TableString>();
         passRoam = (TableView<TableString>) scene.lookup("#passRoam");
-//        if(action == "add"){
-//            passRoam.getItems().add(new TableString("Passenger " + n));
-//            passengerNum[n] = roamCnt;
-//            roamCnt++;
-//        }
-//        else{
-//            passRoam.getItems().remove(passengerNum[n]);
-//        }
+        if(action == "add"){
+            passRoam.getItems().add(new TableString("Passenger " + n));
+            roamCnt++;
+        }
+        else{
+            passRoam.getItems().clear();
+            int i = 0;
+            while(passengerNum.get(i) != n){
+                i++;
+            }
+            passengerNum.remove(i);
+            for(i = 0; i < passengerNum.size(); i++){
+                passRoam.getItems().add(new TableString("Passenger " + passengerNum.get(i)));
+            }
+        }
 
     }
 
@@ -186,13 +193,13 @@ public class Controller implements Initializable {
 
     void runRollerCoaster(Scene scene) {
         Monitor monitor = new Monitor(0, capacityOfCars, numberOfCars, numberOfPassengers, scene, this);
-        passengerNum = new int[numberOfPassengers];
 
         for (int i = 0; i < numberOfPassengers; i++){
             passenger.add(new Passenger(i, MIN_RANDOM_IN_SEC, MAX_RANDOM_IN_SEC, monitor, scene, this));
             Thread thread = new Thread(passenger.get(i), "Passenger " + i);
             thread.start();
             updatePassRoam(scene, i, "add");
+            passengerNum.add(i);
         }
 
         for (int i = 0; i < numberOfCars; i++){
