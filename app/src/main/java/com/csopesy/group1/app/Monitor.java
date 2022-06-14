@@ -17,8 +17,9 @@ public class Monitor {
     private final ArrayList<Integer> queue = new ArrayList<>();                 // list of current passengers in queue
     private final ArrayList<Integer> boardedPassengers = new ArrayList<>();     // list of currently boarded passengers
     private final ArrayList<Integer> unboardedPassengers = new ArrayList<>();   // list of already unboarded passengers
-    private Object passengerMonitor = new Object();
-    private boolean tempBool = false;
+    private Object passengerMonitor = new Object();     // monitor used for passenger threads
+    private Object carMonitor = new Object();           // monitor used for car threads
+    private boolean tempBool = false;                   // temporary boolean value that determines if a passenger is next in line for unboarding
 
     public Monitor(int counter, int capacity, int numberOfCars, int numberOfPassengers){
         this.counter = counter;
@@ -85,17 +86,27 @@ public class Monitor {
         synchronized (passengerMonitor){
             passengerMonitor.notifyAll();
         }
-        if (numberOfPassengers == unboardedCounter || (numberOfPassengers == unboardedCounter + queue.size() && queue.size() < capacity)){
-            System.out.println("All rides completed");
-            isDone = true;
-            notifyAll();
-        } else {
-            availableCars++;
-            checkAvailable();
+
+        synchronized (carMonitor){
+            try {
+                carMonitor.wait();
+                if (numberOfPassengers == unboardedCounter || (numberOfPassengers == unboardedCounter + queue.size() && queue.size() < capacity)){
+                    System.out.println("All rides completed");
+                    isDone = true;
+                    notifyAll();
+                } else {
+                    availableCars++;
+                    checkAvailable();
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
+
     }
 
-    public void unboard(int index){
+    // Used to unboard passengers. Waits for car thread to notify passenger monitor that the ride is finished and passenger is allowed to unboard.
+    public boolean unboard(int index){
         synchronized (passengerMonitor){
             try{
                 if(unboardedCounter == 0){
@@ -108,7 +119,13 @@ public class Monitor {
                         }
                     }
                     if(!tempBool){
-                        passengerMonitor.wait();
+                        if(numberOfPassengers == unboardedCounter || (numberOfPassengers == unboardedCounter + queue.size() && queue.size() < capacity)){
+                            return false;
+                        }
+                        else{
+                            passengerMonitor.wait();
+                        }
+
                     }
 
                 }
@@ -117,7 +134,14 @@ public class Monitor {
                 throw new RuntimeException(e);
             }
         }
+        return true;
+    }
 
+    // notifies car thread to continue after unboarding of passengers.
+    public void unboardSuccessful(){
+        synchronized (carMonitor){
+            carMonitor.notifyAll();
+        }
     }
 
     // checkRemainingRides: Is used to check if there is still enough passenger to fill a ride.

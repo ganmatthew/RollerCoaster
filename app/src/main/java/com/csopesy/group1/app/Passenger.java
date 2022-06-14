@@ -19,15 +19,14 @@ class Passenger implements Runnable {
 
     private void board(){
         System.out.println(new Time(new Date().getTime()) + "\tPassenger " + index + " is in line for boarding");
-        synchronized (monitor){
-            carCounter = monitor.increment(index);
-        }
+        carCounter = monitor.increment(index);
     }
 
     private void unboard(){
-        monitor.unboard(index);
-        System.out.println(new Time(new Date().getTime()) + "\tPassenger " + index + " has unboarded Car " + carCounter);
-
+        if(monitor.unboard(index)){
+            System.out.println(new Time(new Date().getTime()) + "\tPassenger " + index + " has unboarded Car " + carCounter);
+            monitor.unboardSuccessful();
+        }
     }
 
     @Override
