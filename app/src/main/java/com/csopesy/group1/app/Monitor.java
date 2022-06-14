@@ -29,6 +29,7 @@ public class Monitor {
     private Object carMonitor = new Object();           // monitor used for car threads
     private boolean tempBool = false;                   // temporary boolean value that determines if a passenger is next in line for unboarding
     private int tempCounter = 0;
+    private int carNumber = 0;
 
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
@@ -52,7 +53,10 @@ public class Monitor {
                 notify();
             }
         }
-        return carCounter;
+        if(carNumber > capacity){
+            carNumber++;
+        }
+        return carCounter + (carNumber * capacity);
 
     }
 
