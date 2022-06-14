@@ -89,6 +89,7 @@ public class Monitor {
                     }
                     counter -= capacity;
                     availableCars--;
+                    System.out.println(new Time(new Date().getTime()) + "\tAll aboard Car " + carCounter);
                 }
                 else{
                     return isDone;
@@ -112,15 +113,14 @@ public class Monitor {
 
         synchronized (carMonitor){
             try {
-//                while(tempCounter % capacity != 0 || tempCounter == 0){
                 carMonitor.wait();
-//                }
+                System.out.println(new Time(new Date().getTime()) + "\tAll ashore from Car " + index);
                 if (numberOfPassengers == unboardedCounter || (numberOfPassengers == unboardedCounter + queue.size() && queue.size() < capacity)){
                     System.out.println("All rides completed");
 
                     alert.setTitle("Information Dialog");
                     alert.setHeaderText(null);
-                    alert.setContentText("All rides completed");
+                    alert.setContentText(new Time(new Date().getTime()) + "\tAll rides completed");
 
                     Platform.runLater(()->{
                         Optional<ButtonType> result = alert.showAndWait();
