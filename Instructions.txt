@@ -1,0 +1,13 @@
+CSOPESY Mini MP2 Group 1
+Adrian Jerez, Giancarlo Tee, Marc Llorca, Matthew Gan
+
+Requirements:
+- Java 11 and higher
+
+Instructions:
+1. Run the RollerCoaster.jar file.
+2. Enter three numbers in the text field. 
+
+Example: entering "180 5 60" means 180 total passengers, 5 capacity per car, and 60 total number of cars
+
+3. Select the Start button.
