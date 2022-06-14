@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csopesy.group1.app.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csopesy.group1.app.Controller">
    <children>
       <ImageView fitHeight="606.0" fitWidth="1009.0" layoutX="-8.0" layoutY="118.0" pickOnBounds="true">
          <image>
@@ -57,22 +57,22 @@
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <TableView layoutX="825.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
+      <TableView fx:id="passUnboard" layoutX="825.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
         <columns>
           <TableColumn prefWidth="185.0" text="Passengers Unboarded" />
         </columns>
       </TableView>
-      <TableView layoutX="648.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
+      <TableView fx:id="numCars" layoutX="648.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
          <columns>
             <TableColumn prefWidth="185.0" text="Cars on Track" />
          </columns>
       </TableView>
-      <TableView layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
+      <TableView fx:id="passRoam" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
          <columns>
             <TableColumn prefWidth="185.0" text="Passengers Roaming" />
          </columns>
       </TableView>
-      <TableView layoutX="177.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
+      <TableView fx:id="passQueue" layoutX="177.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
          <columns>
             <TableColumn prefWidth="185.0" text="Passengers on Queue" />
          </columns>

@@ -1,8 +1,16 @@
 package com.csopesy.group1.app;
 
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 
 public class Monitor {
     private int counter;                    // current number of passengers in queue
@@ -21,6 +29,8 @@ public class Monitor {
     private Object carMonitor = new Object();           // monitor used for car threads
     private boolean tempBool = false;                   // temporary boolean value that determines if a passenger is next in line for unboarding
     private int tempCounter = 0;
+
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
     public Monitor(int counter, int capacity, int numberOfCars, int numberOfPassengers){
         this.counter = counter;
@@ -79,7 +89,7 @@ public class Monitor {
     }
 
     // passengerUnboard: Is called everytime a car thread finishes one rotation in the track.
-    public synchronized void passengerUnboard (int index){
+    public synchronized void passengerUnboard (int index, Scene scene){
         for (int i = 0; i < capacity; i++){
             unboardedPassengers.add(boardedPassengers.get(unboardedCounter));
             unboardedCounter++;
@@ -95,6 +105,19 @@ public class Monitor {
 //                }
                 if (numberOfPassengers == unboardedCounter || (numberOfPassengers == unboardedCounter + queue.size() && queue.size() < capacity)){
                     System.out.println("All rides completed");
+
+                    alert.setTitle("Information Dialog");
+                    alert.setHeaderText(null);
+                    alert.setContentText("All rides completed");
+
+                    Platform.runLater(()->{
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.get() == ButtonType.OK){
+                            Stage stage = (Stage) scene.getWindow();
+                            stage.close();
+                        }
+                    });
+
                     isDone = true;
                     notifyAll();
                 } else {

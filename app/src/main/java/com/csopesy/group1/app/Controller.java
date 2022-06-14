@@ -4,6 +4,7 @@ import javafx.animation.PathTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -26,6 +27,8 @@ public class Controller {
     private final ArrayList<Passenger> passenger = new ArrayList<>();
     private final ArrayList<Car> car = new ArrayList<>();
 
+    @FXML
+    TableView passRoam, passQueue, numCars, passUnboard;
     @FXML
     Circle car1, car2;
 

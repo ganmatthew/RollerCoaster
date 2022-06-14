@@ -41,7 +41,7 @@ class Car implements Runnable {
 
     private void unload(){
         System.out.println(new Time(new Date().getTime()) + "\tCar " + index + " is unloading passengers");
-        monitor.passengerUnboard(index);
+        monitor.passengerUnboard(index, this.scene);
     }
 
     @Override
