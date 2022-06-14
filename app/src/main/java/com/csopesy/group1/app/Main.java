@@ -18,7 +18,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("display.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1009, 606);
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 720);
         stage.setScene(scene);
         stage.show();
         stage.setMinWidth(WIDTH);

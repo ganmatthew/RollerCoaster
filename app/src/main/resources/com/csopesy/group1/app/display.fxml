@@ -57,22 +57,22 @@
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <TableView fx:id="passUnboard" layoutX="825.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
+      <TableView fx:id="passUnboard" layoutX="784.0" layoutY="539.0" prefHeight="182.0" prefWidth="200.0">
         <columns>
           <TableColumn fx:id="passUnboardCol" prefWidth="185.0" text="Passengers Unboarded" />
         </columns>
       </TableView>
-      <TableView fx:id="numCars" layoutX="648.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
+      <TableView fx:id="numCars" layoutX="584.0" layoutY="539.0" prefHeight="182.0" prefWidth="200.0">
          <columns>
             <TableColumn fx:id="numCarsCol" prefWidth="185.0" text="Cars on Track" />
          </columns>
       </TableView>
-      <TableView fx:id="passRoam" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
+      <TableView fx:id="passRoam" layoutY="539.0" prefHeight="182.0" prefWidth="200.0">
          <columns>
             <TableColumn fx:id="passRoamCol" prefWidth="185.0" text="Passengers Roaming" />
          </columns>
       </TableView>
-      <TableView fx:id="passQueue" layoutX="177.0" layoutY="539.0" prefHeight="181.0" prefWidth="177.0">
+      <TableView fx:id="passQueue" layoutX="200.0" layoutY="539.0" prefHeight="182.0" prefWidth="200.0">
          <columns>
             <TableColumn fx:id="passQueueCol" prefWidth="185.0" text="Passengers on Queue" />
          </columns>
