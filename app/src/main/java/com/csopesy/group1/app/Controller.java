@@ -1,6 +1,7 @@
 package com.csopesy.group1.app;
 
 import javafx.animation.PathTransition;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -52,15 +53,34 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
         passRoamCol.setCellValueFactory(new PropertyValueFactory<TableString, String>("string"));
+        passQueueCol.setCellValueFactory(new PropertyValueFactory<TableString, String>("string"));
+        numCarsCol.setCellValueFactory(new PropertyValueFactory<TableString, String>("string"));
+        passUnboardCol.setCellValueFactory(new PropertyValueFactory<TableString, String>("string"));
 
     }
 
-    public void updatePassRoam(Scene scene, int n){
-        TableView<TableString> passRoam = (TableView<TableString>) scene.lookup("#passRoam");
+    public synchronized void updatePassRoam(Scene scene, int n){
+        passUnboard = new TableView<TableString>();
+        passUnboard = (TableView<TableString>) scene.lookup("#passRoam");
+        passUnboard.getItems().add(new TableString("Passenger " +n));
+    }
 
-        ObservableList<TableString> tableStrings = passRoam.getItems();
-        tableStrings.add(new TableString("Passenger " +n));
-        passRoam.setItems(tableStrings);
+    public synchronized void updatePassQueue(Scene scene, int n){
+        passUnboard = new TableView<TableString>();
+        passUnboard = (TableView<TableString>) scene.lookup("#passQueue");
+        passUnboard.getItems().add(new TableString("Passenger " +n));
+    }
+
+    public synchronized void updateNumCars(Scene scene, int n){
+        passUnboard = new TableView<TableString>();
+        passUnboard = (TableView<TableString>) scene.lookup("#numCars");
+        passUnboard.getItems().add(new TableString("Passenger " +n));
+    }
+
+    public synchronized void updatePassUnboard(Scene scene, int n){
+        passUnboard = new TableView<TableString>();
+        passUnboard = (TableView<TableString>) scene.lookup("#passUnboard");
+        passUnboard.getItems().add(new TableString("Passenger " +n));
     }
 
 

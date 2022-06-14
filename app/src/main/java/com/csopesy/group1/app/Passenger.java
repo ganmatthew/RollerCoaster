@@ -34,7 +34,7 @@ class Passenger implements Runnable {
         if(monitor.unboard(index)){
             System.out.println(new Time(new Date().getTime()) + "\tPassenger " + index + " has unboarded Car " + carCounter);
             monitor.unboardSuccessful();
-            controller.updatePassRoam(scene,index);
+            controller.updatePassUnboard(scene,index);
         }
     }
 
