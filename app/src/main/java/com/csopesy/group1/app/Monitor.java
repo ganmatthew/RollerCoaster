@@ -20,6 +20,7 @@ public class Monitor {
     private Object passengerMonitor = new Object();     // monitor used for passenger threads
     private Object carMonitor = new Object();           // monitor used for car threads
     private boolean tempBool = false;                   // temporary boolean value that determines if a passenger is next in line for unboarding
+    private int tempCounter = 0;
 
     public Monitor(int counter, int capacity, int numberOfCars, int numberOfPassengers){
         this.counter = counter;
@@ -89,7 +90,9 @@ public class Monitor {
 
         synchronized (carMonitor){
             try {
+//                while(tempCounter % capacity != 0 || tempCounter == 0){
                 carMonitor.wait();
+//                }
                 if (numberOfPassengers == unboardedCounter || (numberOfPassengers == unboardedCounter + queue.size() && queue.size() < capacity)){
                     System.out.println("All rides completed");
                     isDone = true;
@@ -140,7 +143,10 @@ public class Monitor {
     // notifies car thread to continue after unboarding of passengers.
     public void unboardSuccessful(){
         synchronized (carMonitor){
-            carMonitor.notifyAll();
+            tempCounter++;
+            if(tempCounter % capacity == 0){
+                carMonitor.notifyAll();
+            }
         }
     }
 
