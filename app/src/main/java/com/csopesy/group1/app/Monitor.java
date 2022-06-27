@@ -63,6 +63,24 @@ public class Monitor {
             }
         }
 
+        if((counter == numberOfPassengers) && counter < capacity){
+            System.out.println("All rides completed");
+
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText(new Time(new Date().getTime()) + "\tAll rides completed");
+
+            Platform.runLater(()->{
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    Stage stage = (Stage) scene.getWindow();
+                    stage.close();
+                }
+            });
+            isDone = true;
+            notifyAll();
+        }
+
         return carNumber;
 
     }
